@@ -28,8 +28,7 @@ pipeline {
         }
         stage('Manual Approval'){
             steps {
-                input message 'Lanjutkan ke tahap Deploy?'
-                echo 'Melanjutkan ke proses deployment'
+                input message: 'Lanjutkan ke tahap Deploy?'
             }
         }
         stage('Deploy') {
