@@ -28,19 +28,8 @@ pipeline {
         }
         stage('Manual Approval'){
             steps {
-                script {
-                    def userInput = input(
-                        id: 'ProceedOrAbort',
-                        message: 'Lanjutkan ke tahap Deploy?',
-                        parameters: [
-                            choice(name: 'ACTION', choices: ['Proceed', 'Abort'], description: 'Pilih aksi')
-                        ]
-                    )
-
-                    if (userInput == 'Abort') {
-                        error("Pipeline dihentikan oleh user.")
-                    }
-                }
+                input message 'Lanjutkan ke tahap Deploy?',
+                echo 'Melanjutkan ke proses deployment'
             }
         }
         stage('Deploy') {
@@ -50,7 +39,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'python source/add2val.py 8 7'
+                sh 'python sources/add2val.py 8 7'
                 sleep(60)
             }
         }
