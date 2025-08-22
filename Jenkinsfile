@@ -38,7 +38,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'python sources/add2val.py 8 7'
+                sh 'python sources/add2vals.py 8 7'
                 sleep(60)
             }
         }
