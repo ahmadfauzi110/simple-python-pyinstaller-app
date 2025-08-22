@@ -26,19 +26,32 @@ pipeline {
                 }
             }
         }
+        stage('Manual Approval'){
+            steps {
+                script {
+                    def userInput = input(
+                        id: 'ProceedOrAbort',
+                        message: 'Lanjutkan ke tahap Deploy?',
+                        parameters: [
+                            choice(name: 'ACTION', choices: ['Proceed', 'Abort'], description: 'Pilih aksi')
+                        ]
+                    )
+
+                    if (userInput == 'Abort') {
+                        error("Pipeline dihentikan oleh user.")
+                    }
+                }
+            }
+        }
         stage('Deploy') {
             agent {
                 docker {
-                    image 'cdrx/pyinstaller-linux:python2'
+                    image 'python:2-alpine'
                 }
             }
             steps {
-                sh 'pyinstaller --onefile sources/add2vals.py'
-            }
-            post {
-                success {
-                    archiveArtifacts 'dist/add2vals'
-                }
+                sh 'python source/add2val.py 8 7'
+                sleep(60)
             }
         }
     }
